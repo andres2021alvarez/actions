@@ -22,10 +22,14 @@ jobs:
         run: |
           $HOME/pipelines configure --key="${{ secrets.ACQUIA_KEY }}" --secret="${{ secrets.ACQUIA_SECRET }}"
 
+      - name: Configurar aplicacion
+        run: |
+          $HOME/pipelines set-application-id --application-id="${{ secrets.ACQUIA_KEY }}
+
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
-          $HOME/pipelines start --application-id="${{ secrets.ACQUIA_KEY }}"
+          $HOME/pipelines start"
 
       - name: Monitorear el estado del pipeline
         run: |
