@@ -27,9 +27,7 @@ jobs:
       - name: Configurar credenciales de Acquia
         run: |
           mkdir -p ~/.acquia/pipelines
-          echo "credentials:" > ~/.acquia/pipelines/credentials
-          echo "  key: '${{ secrets.ACQUIA_API_KEY }}'" >> ~/.acquia/pipelines/credentials
-          echo "  secret: '${{ secrets.ACQUIA_API_SECRET }}'" >> ~/.acquia/pipelines/credentials
+          $HOME/pipelines configure --key="${{ secrets.ACQUIA_API_KEY }}" --secret="${{ secrets.ACQUIA_API_SECRET }}"
 
       - name: Iniciar el pipeline
         run: |
