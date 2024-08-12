@@ -24,7 +24,7 @@ jobs:
 
       - name: Configurar aplicacion
         run: |
-          $HOME/pipelines set-application-id --application-id="${{ secrets.ACQUIA_KEY }}
+          $HOME/pipelines set-application-id --application-id="${{ secrets.ACQUIA_KEY }}"
 
       - name: Iniciar el pipeline
         run: |
