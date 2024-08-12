@@ -16,7 +16,7 @@ jobs:
       - name: Instalar `pipelines` CLI de Acquia
         run: |
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
-          chmod +x ($HOME/pipelines
+          chmod +x $HOME/pipelines
 
       - name: Configurar credenciales de Acquia
         run: |
