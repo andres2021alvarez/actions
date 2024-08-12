@@ -17,12 +17,11 @@ jobs:
         run: |
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
           chmod +x $HOME/pipelines
-
-      - name: Instalar `acli` CLI de Acquia
+      - name: Configurar credenciales de Acquia
         run: |
-          wget https://github.com/acquia/cli/releases/latest/download/acli.phar -O acli
-          chmod +x acli
-          sudo mv acli /usr/local/bin/acli
+          mkdir -p ~/.acquia/pipelines
+          echo "key: '${{ secrets.ACQUIA_API_KEY }}'" > ~/.acquia/pipelines/credentials
+          echo "secret: '${{ secrets.ACQUIA_API_SECRET }}'" >> ~/.acquia/pipelines/credentials
 
       - name: Configurar credenciales de Acquia
         run: |
@@ -32,7 +31,7 @@ jobs:
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
-          $HOME/pipelines configure
+          $HOME/pipelines start
 
       - name: Monitorear el estado del pipeline
         run: |
@@ -44,7 +43,6 @@ jobs:
                   sleep 10
               elif [[ $ESTADO == *"Status: succeeded"* ]]; then
                   echo "El pipeline ha finalizado con éxito."
-                  # Ejecutar el siguiente comando
                   echo "Desplegando al ambiente stage"
                   acli api:environments:code-switch unisabanastart.stage "pipelines-build-${{ github.ref_name }}"
                   break
