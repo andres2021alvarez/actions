@@ -24,6 +24,13 @@ jobs:
           chmod +x acli
           sudo mv acli /usr/local/bin/acli
 
+      - name: Configurar credenciales de Acquia
+        run: |
+          mkdir -p ~/.acquia
+          echo "credentials:" > ~/.acquia/credentials.yml
+          echo "  key: 'TU_KEY'" >> ~/.acquia/credentials.yml
+          echo "  secret: 'TU_SECRET'" >> ~/.acquia/credentials.yml
+
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
