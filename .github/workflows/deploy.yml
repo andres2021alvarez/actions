@@ -15,8 +15,8 @@ jobs:
 
     - name: Instalar `pipelines` CLI de Acquia
       run: |
-        sudo wget -O /usr/local/bin/pipelines https://cloud.acquia.com/downloads/pipelines-cli/latest/linux/pipelines
-        sudo chmod +x /usr/local/bin/pipelines
+        sudo wget -O /usr/local/bin/pipelines https://cloud.acquia.com/pipeline-client/download
+        sudo chmod a+x /usr/local/bin/pipelines
 
     - name: Instalar `acli` CLI de Acquia
       run: |
