@@ -34,7 +34,7 @@ jobs:
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
-          $HOME/pipelines start
+          $HOME/pipelines configure
 
       - name: Monitorear el estado del pipeline
         run: |
