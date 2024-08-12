@@ -27,13 +27,13 @@ jobs:
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
-          pipelines start
+          /usr/local/bin/pipelines start
 
       - name: Monitorear el estado del pipeline
         run: |
           echo "Consultando el estado del pipeline..."
           while true; do
-              ESTADO=$(pipelines status | grep Status)
+              ESTADO=$(/usr/local/bin/pipelines status | grep Status)
               if [[ $ESTADO == *"Status: running"* || $ESTADO == *"Status: started"* ]]; then
                   echo "El pipeline $ESTADO -> Consultando nuevamente en 10 segundos..."
                   sleep 10
