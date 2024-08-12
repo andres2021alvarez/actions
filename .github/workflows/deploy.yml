@@ -15,8 +15,8 @@ jobs:
 
       - name: Instalar `pipelines` CLI de Acquia
         run: |
-          sudo wget -O /usr/local/bin/pipelines https://cloud.acquia.com/pipeline-client/download
-          sudo chmod a+x /usr/local/bin/pipelines
+          wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
+          chmod +x $HOME/pipelines
 
       - name: Instalar `acli` CLI de Acquia
         run: |
@@ -27,13 +27,13 @@ jobs:
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
-          /usr/local/bin/pipelines start
+          $HOME/pipelines start
 
       - name: Monitorear el estado del pipeline
         run: |
           echo "Consultando el estado del pipeline..."
           while true; do
-              ESTADO=$(/usr/local/bin/pipelines status | grep Status)
+              ESTADO=$($HOME/pipelines status | grep Status)
               if [[ $ESTADO == *"Status: running"* || $ESTADO == *"Status: started"* ]]; then
                   echo "El pipeline $ESTADO -> Consultando nuevamente en 10 segundos..."
                   sleep 10
