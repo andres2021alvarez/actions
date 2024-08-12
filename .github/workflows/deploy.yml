@@ -25,7 +25,7 @@ jobs:
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
-          $HOME/pipelines start --key="${{ secrets.ACQUIA_KEY }}"
+          $HOME/pipelines start --application-id="${{ secrets.ACQUIA_KEY }}"
 
       - name: Monitorear el estado del pipeline
         run: |
