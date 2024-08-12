@@ -16,17 +16,11 @@ jobs:
       - name: Instalar `pipelines` CLI de Acquia
         run: |
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
-          chmod +x $HOME/pipelines
-
-      - name: Verificar valores de secretos (temporalmente)
-        run: |
-          echo "Acquia API Key: ${{ secrets.ACQUIA_KEY }}"
-          echo "Acquia API Secret: ${{ secrets.ACQUIA_SECRET }}"
-
+          chmod +x ($HOME/pipelines
 
       - name: Configurar credenciales de Acquia
         run: |
-          $HOME/pipelines configure --key="${{ secrets.ACQUIA_KEY }}" --secret="${{ secrets.ACQUIA_SECRET }}"
+          $HOME/pipelines configure --application-id APPLICATION-ID="${{ secrets.ACQUIA_ID }}" --key="${{ secrets.ACQUIA_KEY }}" --secret="${{ secrets.ACQUIA_SECRET }}"
 
       - name: Iniciar el pipeline
         run: |
