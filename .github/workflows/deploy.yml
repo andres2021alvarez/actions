@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "Iniciando el pipeline..."
           $HOME/pipelines --version
-          $HOME/pipelines start --application-id="${{ secrets.ACQUIA_KEY }}"
+          $HOME/pipelines start --application-id="${{ secrets.ACQUIA_KEY }} -v"
 
       - name: Monitorear el estado del pipeline
         run: |
