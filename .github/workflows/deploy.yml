@@ -20,13 +20,13 @@ jobs:
 
       - name: Verificar valores de secretos (temporalmente)
         run: |
-          echo "Acquia API Key: ${{ secrets.ACQUIA_API_KEY }}"
-          echo "Acquia API Secret: ${{ secrets.ACQUIA_API_SECRET }}"
+          echo "Acquia API Key: ${{ secrets.ACQUIA_KEY }}"
+          echo "Acquia API Secret: ${{ secrets.ACQUIA_SECRET }}"
 
 
       - name: Configurar credenciales de Acquia
         run: |
-          $HOME/pipelines configure --key="${{ secrets.ACQUIA_API_KEY }}" --secret="${{ secrets.ACQUIA_API_SECRET }}"
+          $HOME/pipelines configure --key="${{ secrets.ACQUIA_KEY }}" --secret="${{ secrets.ACQUIA_SECRET }}"
 
       - name: Iniciar el pipeline
         run: |
