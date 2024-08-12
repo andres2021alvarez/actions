@@ -20,12 +20,12 @@ jobs:
 
       - name: Configurar credenciales de Acquia
         run: |
-          $HOME/pipelines configure --application-id="${{ secrets.ACQUIA_ID }}" --key="${{ secrets.ACQUIA_KEY }}" --secret="${{ secrets.ACQUIA_SECRET }}"
+          $HOME/pipelines configure --key="${{ secrets.ACQUIA_KEY }}" --secret="${{ secrets.ACQUIA_SECRET }}"
 
       - name: Iniciar el pipeline
         run: |
           echo "Iniciando el pipeline..."
-          $HOME/pipelines start
+          $HOME/pipelines start --key="${{ secrets.ACQUIA_KEY }}"
 
       - name: Monitorear el estado del pipeline
         run: |
