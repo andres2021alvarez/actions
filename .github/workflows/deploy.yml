@@ -3,60 +3,55 @@ name: Crear Tag y Desplegar
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 jobs:
   crear_y_desplegar:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout del código
-      uses: actions/checkout@v3
+      - name: Checkout del código
+        uses: actions/checkout@v3
 
-    - name: Instalar `pipelines` CLI de Acquia
-      run: |
-        sudo wget -O /usr/local/bin/pipelines https://cloud.acquia.com/pipeline-client/download
-        sudo chmod a+x /usr/local/bin/pipelines
+      - name: Instalar `pipelines` CLI de Acquia
+        run: |
+          sudo wget -O /usr/local/bin/pipelines https://cloud.acquia.com/pipeline-client/download
+          sudo chmod a+x /usr/local/bin/pipelines
 
-    - name: Instalar `acli` CLI de Acquia
-      run: |
-        wget https://github.com/acquia/cli/releases/latest/download/acli.phar -O acli
-        chmod +x acli
-        sudo mv acli /usr/local/bin/acli
+      - name: Instalar `acli` CLI de Acquia
+        run: |
+          wget https://github.com/acquia/cli/releases/latest/download/acli.phar -O acli
+          chmod +x acli
+          sudo mv acli /usr/local/bin/acli
 
-    - name: Crear el tag
-      run: |
-        git tag -a ${{ github.ref_name }} -m "${{ github.event.head_commit.message }}"
-        git push origin ${{ github.ref_name }}
+      - name: Iniciar el pipeline
+        run: |
+          echo "Iniciando el pipeline..."
+          pipelines start
 
-    - name: Iniciar el pipeline
-      run: |
-        echo "Iniciando el pipeline..."
-        pipelines start
+      - name: Monitorear el estado del pipeline
+        run: |
+          echo "Consultando el estado del pipeline..."
+          while true; do
+              ESTADO=$(pipelines status | grep Status)
+              if [[ $ESTADO == *"Status: running"* || $ESTADO == *"Status: started"* ]]; then
+                  echo "El pipeline $ESTADO -> Consultando nuevamente en 10 segundos..."
+                  sleep 10
+              elif [[ $ESTADO == *"Status: succeeded"* ]]; then
+                  echo "El pipeline ha finalizado con éxito."
+                  # Ejecutar el siguiente comando
+                  echo "Desplegando al ambiente stage"
+                  acli api:environments:code-switch unisabanastart.stage "pipelines-build-${{ github.ref_name }}"
+                  break
+              elif [[ $ESTADO == *"Status: failed"* ]]; then
+                  echo "El pipeline ha fallado."
+                  exit 1
+              else
+                  echo "Estado desconocido: $ESTADO"
+                  exit 1
+              fi
+          done
 
-    - name: Monitorear el estado del pipeline
-      run: |
-        echo "Consultando el estado del pipeline..."
-        while true; do
-            ESTADO=$(pipelines status | grep Status)
-            if [[ $ESTADO == *"Status: running"* || $ESTADO == *"Status: started"* ]]; then
-                echo "El pipeline $ESTADO -> Consultando nuevamente en 10 segundos..."
-                sleep 10
-            elif [[ $ESTADO == *"Status: succeeded"* ]]; then
-                echo "El pipeline ha finalizado con éxito."
-                # Ejecutar el siguiente comando
-                echo "Desplegando al ambiente stage"
-                acli api:environments:code-switch unisabanastart.stage "pipelines-build-${{ github.ref_name }}"
-                break
-            elif [[ $ESTADO == *"Status: failed"* ]]; then
-                echo "El pipeline ha fallado."
-                exit 1
-            else
-                echo "Estado desconocido: $ESTADO"
-                exit 1
-            fi
-        done
-
-    - name: Verificar el despliegue
-      run: |
-        echo "Despliegue completado o fallido."
+      - name: Verificar el despliegue
+        run: |
+          echo "Despliegue completado o fallido."
