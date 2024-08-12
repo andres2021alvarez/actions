@@ -17,11 +17,6 @@ jobs:
         run: |
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
           chmod +x $HOME/pipelines
-      - name: Configurar credenciales de Acquia
-        run: |
-          mkdir -p ~/.acquia/pipelines
-          echo "key: '${{ secrets.ACQUIA_API_KEY }}'" > ~/.acquia/pipelines/credentials
-          echo "secret: '${{ secrets.ACQUIA_API_SECRET }}'" >> ~/.acquia/pipelines/credentials
 
       - name: Configurar credenciales de Acquia
         run: |
