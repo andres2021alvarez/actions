@@ -10,7 +10,7 @@ on:
         description: "Selecciona el ambiente de despliegue"
         required: true
         default: "stage"
-        type: string
+        type: choice
         options:
           - stage
           - prod
@@ -25,7 +25,7 @@ jobs:
 
       - name: Instalar `pipelines` de Acquia
         run: |
-          echo "Desplegando al ambiente ${{ github.event.inputs.ambiente }}"
+          echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
           exit 1
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
           chmod +x $HOME/pipelines
