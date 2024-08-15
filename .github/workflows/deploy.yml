@@ -1,4 +1,4 @@
-name: Crear Tag y Desplegar
+name: Desplegar
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v3
 
-      - name: Instalar `pipelines` CLI de Acquia
+      - name: Instalar `pipelines` de Acquia
         run: |
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
           chmod +x $HOME/pipelines
@@ -55,7 +55,7 @@ jobs:
               else
                   echo "Estado desconocido: $ESTADO"
                   echo "El pipeline ha finalizado con éxito."
-                  echo "Desplegando al ambiente ${{ inputs.ambiente }}"
+                  echo "Desplegando al ambiente ${{ github.event.inputs.ambiente }}"
                   acli api:environments:code-switch "unisabanastart.${{ github.event.inputs.ambiente }}" "pipelines-build-${{ github.ref_name }}"
                   exit 1
               fi
