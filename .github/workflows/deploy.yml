@@ -22,14 +22,9 @@ jobs:
         run: |
           $HOME/pipelines configure --key=9f3f2960-a7fd-44e4-9b00-3aa3348e8fda --secret=Jv/S1pTRtQVXBVVjLYBpTd3FiWW2avBtcpzg5e5puyQ=
 
-      - name: Configurar aplicacion
-        run: |
-          $HOME/pipelines start --application-id=02506fe7-50cb-4c7d-8a8d-71829159435a
-
       - name: Iniciar el pipeline
         run: |
-          echo "Iniciando el pipeline..."
-          $HOME/pipelines start --application-id="${{ secrets.ACQUIA_KEY }}" -v
+          $HOME/pipelines start --application-id="${{ secrets.ACQUIA_KEY }}"
 
       - name: Monitorear el estado del pipeline
         run: |
