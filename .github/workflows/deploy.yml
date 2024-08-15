@@ -25,6 +25,7 @@ jobs:
 
       - name: Instalar `pipelines` de Acquia
         run: |
+          echo "Desplegando al ambiente ${{ github.event.inputs.ambiente }}"
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
           chmod +x $HOME/pipelines
 
