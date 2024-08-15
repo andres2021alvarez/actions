@@ -4,6 +4,16 @@ on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: "Selecciona el ambiente de despliegue"
+        required: true
+        default: "stage"
+        type: string
+        options:
+          - stage
+          - prod
 
 jobs:
   crear_y_desplegar:
@@ -36,8 +46,8 @@ jobs:
                   sleep 10
               elif [[ $ESTADO == *"Status: succeeded"* ]]; then
                   echo "El pipeline ha finalizado con éxito."
-                  echo "Desplegando al ambiente ${{ inputs.ambiente }}"
-                  acli api:environments:code-switch "unisabanastart.${{ inputs.ambiente }}" "pipelines-build-${{ github.ref_name }}"
+                  echo "Desplegando al ambiente ${{ github.event.inputs.ambiente }}"
+                  acli api:environments:code-switch "unisabanastart.${{ github.event.inputs.ambiente }}" "pipelines-build-${{ github.ref_name }}"
                   break
               elif [[ $ESTADO == *"Status: failed"* ]]; then
                   echo "El pipeline ha fallado."
@@ -51,8 +61,3 @@ jobs:
       - name: Verificar el despliegue
         run: |
           echo "Despliegue completado o fallido."
-
-inputs:
-  ambiente:
-    description: "Especifica el ambiente al que deseas desplegar (ej. stage, prod)."
-    required: true
