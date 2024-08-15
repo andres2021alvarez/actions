@@ -55,7 +55,7 @@ jobs:
               else
                   echo "Estado desconocido: $ESTADO"
                   echo "El pipeline ha finalizado con éxito."
-                  echo "Desplegando al ambiente ${{ github.event.inputs.ambiente }}"
+                  echo "Desplegando al ambiente ${{ inputs.ambiente }}"
                   acli api:environments:code-switch "unisabanastart.${{ github.event.inputs.ambiente }}" "pipelines-build-${{ github.ref_name }}"
                   exit 1
               fi
