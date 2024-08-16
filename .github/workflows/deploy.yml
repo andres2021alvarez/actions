@@ -14,7 +14,13 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v3
 
-      - name: instalar acli de Acquia
+      - name: Instalar acli de Acquia
+        run: |
+          curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
+          chmod +x acli.phar
+          sudo mv acli.phar /usr/local/bin/acli
+
+      - name: prueba acli
         run: |
           acli api:environments:code-switch unisabanastart.stage pipelines-build-1.2.10
           exit 1
