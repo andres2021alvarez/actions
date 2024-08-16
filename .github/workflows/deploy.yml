@@ -45,16 +45,13 @@ jobs:
                   echo "El pipeline ha finalizado con éxito."
                   echo "Desplegando al ambiente ${{ github.event.inputs.ambiente }}"
                   acli auth:login --key=9f3f2960-a7fd-44e4-9b00-3aa3348e8fda --secret=Jv/S1pTRtQVXBVVjLYBpTd3FiWW2avBtcpzg5e5puyQ=
-                  acli api:environments:code-switch "unisabanastart.${{ github.event.inputs.ambiente }}" "pipelines-build-${{ github.ref_name }}"
+                  acli api:environments:code-switch "unisabanastart.${{ github.event.inputs.environment }}" "pipelines-build-${{ github.ref_name }}"
                   break
               elif [[ $ESTADO == *"Status: failed"* ]]; then
                   echo "El pipeline ha fallado."
                   exit 1
               else
                   echo "Estado desconocido: $ESTADO"
-                  echo "El pipeline ha finalizado con éxito."
-                  echo "Desplegando al ambiente ${{ github.event.inputs.environment }}
-                  acli api:environments:code-switch "unisabanastart.${{ github.event.inputs.environment }} "pipelines-build-${{ github.ref_name }}"
                   exit 1
               fi
           done
