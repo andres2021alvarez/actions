@@ -1,25 +1,30 @@
-name: Desplegar
+name: CI
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
   workflow_dispatch:
     inputs:
-      ambiente:
-        description: "Selecciona el ambiente de despliegue"
-        required: true
-        default: "stage"
+      name:
         type: choice
+        description: Who to greet
         options:
-          - stage
-          - prod
+          - monalisa
+          - cschleiden
+      message:
+        required: true
+      use-emoji:
+        type: boolean
+        description: Include 🎉🤣 emojis
+      environment:
+        type: environment
 
 jobs:
-  crear_y_desplegar:
+  greet:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Send greeting
+        run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+
       - name: Checkout del código
         uses: actions/checkout@v3
 
