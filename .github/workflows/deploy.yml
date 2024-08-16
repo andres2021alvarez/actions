@@ -20,12 +20,6 @@ jobs:
           chmod +x acli.phar
           sudo mv acli.phar /usr/local/bin/acli
 
-      - name: prueba acli
-        run: |
-          acli auth:login --key=9f3f2960-a7fd-44e4-9b00-3aa3348e8fda --secret=Jv/S1pTRtQVXBVVjLYBpTd3FiWW2avBtcpzg5e5puyQ=
-          acli api:environments:code-switch unisabanastart.stage pipelines-build-1.2.10
-          exit 1
-
       - name: Instalar `pipelines` de Acquia
         run: |
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
@@ -50,6 +44,7 @@ jobs:
               elif [[ $ESTADO == *"Status: succeeded"* ]]; then
                   echo "El pipeline ha finalizado con éxito."
                   echo "Desplegando al ambiente ${{ github.event.inputs.ambiente }}"
+                  acli auth:login --key=9f3f2960-a7fd-44e4-9b00-3aa3348e8fda --secret=Jv/S1pTRtQVXBVVjLYBpTd3FiWW2avBtcpzg5e5puyQ=
                   acli api:environments:code-switch "unisabanastart.${{ github.event.inputs.ambiente }}" "pipelines-build-${{ github.ref_name }}"
                   break
               elif [[ $ESTADO == *"Status: failed"* ]]; then
