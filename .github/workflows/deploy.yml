@@ -14,6 +14,11 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v3
 
+      - name: instalar acli de Acquia
+        run: |
+          acli api:environments:code-switch unisabanastart.stage pipelines-build-1.2.10
+          exit 1
+
       - name: Instalar `pipelines` de Acquia
         run: |
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
