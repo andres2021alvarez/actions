@@ -11,14 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout del código
         uses: actions/checkout@v3
 
       - name: Instalar `pipelines` de Acquia
         run: |
-          echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
-          exit 1
           wget -O $HOME/pipelines https://cloud.acquia.com/pipeline-client/download
           chmod +x $HOME/pipelines
 
